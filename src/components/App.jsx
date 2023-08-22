@@ -58,8 +58,8 @@ function App() {
     }
   };
 
-  const handleLoadMore = () => {
-    setPage(page + 1);
+   const handleLoadMore = () => {
+    setPage(prevPage => prevPage + 1);
   };
 
   const handleShowBigImg = url => {
