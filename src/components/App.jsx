@@ -13,7 +13,7 @@ function App() {
   const [page, setPage] = useState(1);
   const [per_page] = useState(18);
   const [photos, setPhotos] = useState([]);
-  const [totalHits, setTotalHits] = useState(0);
+
   const [showLoadMore, setShowLoadMore] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [bigImgUrl, setBigImgUrl] = useState('');
@@ -32,7 +32,6 @@ function App() {
           );
           return;
         }
-        setTotalHits(data.totalHits);
         setPhotos(prevPhotos => (page === 1 ? data.hits : [...prevPhotos, ...data.hits]));
         setShowLoadMore(page < Math.ceil(data.totalHits / per_page));
       } catch {
