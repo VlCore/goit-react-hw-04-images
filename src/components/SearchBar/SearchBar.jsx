@@ -1,45 +1,41 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Header, SearchBtn, SearchForm, SearchInput } from './SearchBar.styled';
 
-export class SearchBar extends Component {
-  state = {
-    textSQ: '',
-  };
+const SearchBar = ({ onSubmit }) => {
+  const [textSQ, setTextSQ] = useState('');
 
-  hendleFormSubmit = e => {
+  const handleFormSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state.textSQ);
+    onSubmit(textSQ);
   };
-  hendleInputCheange = ({ target }) => {
-    this.setState({ textSQ: target.value });
-  };
-  render() {
-    return (
-      <Header className="searchbar">
-        <SearchForm className="form">
-          <SearchBtn
-            type="submit"
-            className="button"
-            onClick={this.hendleFormSubmit}
-          >
-            Search
-          </SearchBtn>
 
-          <SearchInput
-            className="input"
-            type="text"
-            placeholder="Search images and photos"
-            name="textSQ"
-            onChange={this.hendleInputCheange}
-            value={this.state.textSQ}
-          />
-        </SearchForm>
-      </Header>
-    );
-  }
-}
+  const handleInputChange = ({ target }) => {
+    setTextSQ(target.value);
+  };
+
+  return (
+    <Header className="searchbar">
+      <SearchForm className="form" onSubmit={handleFormSubmit}>
+        <SearchBtn type="submit" className="button">
+          Search
+        </SearchBtn>
+
+        <SearchInput
+          className="input"
+          type="text"
+          placeholder="Search images and photos"
+          name="textSQ"
+          onChange={handleInputChange}
+          value={textSQ}
+        />
+      </SearchForm>
+    </Header>
+  );
+};
 
 SearchBar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
+
+export default SearchBar;

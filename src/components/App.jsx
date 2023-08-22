@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { SearchBar } from './SearchBar/SearchBar';
+import SearchBar from './SearchBar/SearchBar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { feachPictures } from 'Api/Api';
 import { Button } from './Button/Button';
-import { Modal } from './Modal/Modal';
+import Modal from './Modal/Modal';
 import { ModalImg } from './App.styled';
 import { Loader } from './Loader/Loader';
 import { toast } from 'react-toastify';
@@ -32,11 +32,8 @@ function App() {
           );
           return;
         }
-
-        const updatedPhotos =
-          page === 1 ? data.hits : [...photos, ...data.hits];
-        setPhotos(updatedPhotos);
         setTotalHits(data.totalHits);
+        setPhotos(prevPhotos => (page === 1 ? data.hits : [...prevPhotos, ...data.hits]));
         setShowLoadMore(page < Math.ceil(data.totalHits / per_page));
       } catch {
         toast.error('Oops!!! An error occurred. Please try again.');
@@ -47,7 +44,7 @@ function App() {
     };
 
     fetchData();
-  }, [page, per_page, searchQuery, photos]);
+  }, [page, per_page, searchQuery]);
 
   const handleSearchForm = query => {
     if (!query) {
@@ -63,8 +60,7 @@ function App() {
   };
 
   const handleLoadMore = () => {
-    const maxPages = Math.ceil(totalHits / per_page);
-    setPage(page < maxPages ? page + 1 : page);
+    setPage(page + 1);
   };
 
   const handleShowBigImg = url => {
